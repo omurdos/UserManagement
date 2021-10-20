@@ -10,4 +10,10 @@
     @permission('payments-delete')
         <p>This is visible to users with the given permissions. Gets translated to
             @endpermission
-        @endsection
+
+        <form action="logout" method="POST">
+            @csrf
+            <input type="submit" value="Logout">
+        </form>
+
+    @endsection
