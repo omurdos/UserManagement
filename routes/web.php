@@ -1,11 +1,14 @@
 <?php
 
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeesController;
 use App\Http\Controllers\OfficesController;
 use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\ProductLineController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
@@ -27,42 +30,49 @@ Route::get('/', function () {
     return redirect('login');
 });
 
-Route::get('/dashboard', function () {
+Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'role:administrator|supteradministrator']], function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/stats', [DashboardController::class, 'stats']);
+});
 
-    $user = Auth::user();
-
-    if (!$user->hasRole('administrator|superadministrator')) {
-        return abort(403);
-    }
-
-    return view('dashboard', [
-        "user" => Auth::user()
-    ]);
-})->middleware(['auth'])->name('dashboard');
-
-//Custoemr route
-Route::get('customers', [CustomerController::class, 'index'])->name('customers');
+Route::group(['prefix' => 'customers', 'middleware' => ['auth', 'role:sales|administrator']], function () {
+    Route::get('/', [CustomerController::class, 'index'])->name('customers');
+});
 
 Route::prefix('employees')->group(function () {
     Route::get('/', [EmployeesController::class, 'index'])->name('employees');
 });
 
-Route::prefix('products')->group(function () {
+
+Route::group(['prefix' => 'products', 'middleware' => ['auth', 'role:sales|administrator']], function () {
     Route::get('/', [ProductsController::class, 'index'])->name('products');
 });
 
-Route::prefix('orders')->group(function () {
+Route::group(['prefix' => 'orders', 'middleware' => ['auth', 'role:sales|administrator|user']], function () {
     Route::get('/', [OrdersController::class, 'index'])->name('orders');
 });
 
-Route::prefix('offices')->group(function () {
+
+Route::group(['prefix' => 'payments', 'middleware' => ['auth', 'role:administrator']], function () {
+    Route::get('/', [PaymentsController::class, 'index'])->name('payments');
+});
+
+Route::group(['prefix' => 'offices', 'middleware' => ['auth', 'role:administrator']], function () {
     Route::get('/', [OfficesController::class, 'index'])->name('offices');
 });
 
-
-Route::prefix('product-lines')->group(function () {
+Route::group(['prefix' => 'product-lines', 'middleware' => ['auth', 'role:sales|administrator']], function () {
     Route::get('/', [ProductLineController::class, 'index'])->name('product_lines');
 });
+
+Route::group(['prefix' => 'users', 'middleware' => ['auth', 'role:administrator']], function () {
+    Route::get('/', [UsersController::class, 'index'])->name('users');
+    Route::get('/create', [UsersController::class, 'create'])->name('create-user');
+    Route::get('/{id}/edit', [UsersController::class, 'edit'])->name('edit-user');
+    Route::post('/{id}/update', [UsersController::class, 'update'])->name('update-user');
+    Route::post('/store', [UsersController::class, 'store'])->name('create-user');
+});
+
 
 
 require __DIR__ . '/auth.php';

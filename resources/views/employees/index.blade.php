@@ -19,10 +19,10 @@
                 <tbody>
                     @foreach ($employees as $employee)
                         <tr>
-                            <th>{{ $employee->employeeNumber }}</th>
-                            <th>{{ $employee->firstName }}, {{ $employee->lastName }}</th>
-                            <th>{{ $employee->email }}</th>
-                            <th>{{ $employee->jobTitle }}</th>
+                            <td>{{ $employee->employeeNumber }}</td>
+                            <td>{{ $employee->firstName }}, {{ $employee->lastName }}</td>
+                            <td>{{ $employee->email }}</td>
+                            <td>{{ $employee->jobTitle }}</td>
                         </tr>
                     @endforeach
                 </tbody>

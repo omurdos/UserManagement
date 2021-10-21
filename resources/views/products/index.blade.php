@@ -21,12 +21,12 @@
                 <tbody>
                     @foreach ($products as $product)
                         <tr>
-                            <th>{{ $product->productCode }}</th>
-                            <th>{{ $product->productName }}</th>
-                            <th>{{ $product->productLine }}</th>
-                            <th>{{ $product->productVendor }}</th>
-                            <th>{{ $product->quantityInStock }}</th>
-                            <th>{{ $product->buyPrice }}</th>
+                            <td>{{ $product->productCode }}</td>
+                            <td>{{ $product->productName }}</td>
+                            <td>{{ $product->productLine }}</td>
+                            <td>{{ $product->productVendor }}</td>
+                            <td>{{ $product->quantityInStock }}</td>
+                            <td>{{ $product->buyPrice }}</td>
                         </tr>
                     @endforeach
                 </tbody>

@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Payment extends Model
 {
     use HasFactory;
+
+
+    protected $with = ['customer'];
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'customerNumber', 'customerNumber');
+    }
+
 }
