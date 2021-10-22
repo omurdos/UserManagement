@@ -8,6 +8,7 @@ use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\ProductLineController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\RolesController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -72,6 +73,24 @@ Route::group(['prefix' => 'users', 'middleware' => ['auth', 'role:administrator'
     Route::post('/{id}/update', [UsersController::class, 'update'])->name('update-user');
     Route::post('/store', [UsersController::class, 'store'])->name('create-user');
 });
+
+
+Route::group(['prefix' => 'roles', 'middleware' => ['auth', 'role:administrator']], function () {
+    Route::get('/', [RolesController::class, 'index'])->name('roles');
+    Route::get('/create', [RolesController::class, 'create'])->name('create-role');
+    Route::get('/{id}/edit', [RolesController::class, 'edit'])->name('edit-role');
+    Route::post('/{id}/update', [RolesController::class, 'update'])->name('update-role');
+    Route::post('/store', [RolesController::class, 'store'])->name('store-role');
+});
+
+// Route::group(['prefix' => 'permissions', 'middleware' => ['auth', 'role:administrator']], function () {
+//     Route::get('/', [RolesController::class, 'index'])->name('roles');
+//     Route::get('/create', [RolesController::class, 'create'])->name('create-role');
+//     Route::get('/{id}/edit', [RolesController::class, 'edit'])->name('edit-role');
+//     Route::post('/{id}/update', [RolesController::class, 'update'])->name('update-role');
+//     Route::post('/store', [RolesController::class, 'store'])->name('store-role');
+// });
+
 
 
 

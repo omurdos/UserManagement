@@ -110,7 +110,36 @@
                         @endrole
 
                         @role('administrator')
-                        <li class="nav-item">
+
+                        <li class="nav-item menu-close">
+                            <a href="#" class="nav-link">
+                              <i class="nav-icon fas fa-tachometer-alt"></i>
+                              <p>
+                                Manage users
+                                <i class="right fas fa-angle-left"></i>
+                              </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                              <li class="nav-item">
+                                <a href="{{ route('users') }}" class="nav-link active">
+                                  <p>Users</p>
+                                </a>
+                              </li>
+                              <li class="nav-item">
+                                <a href="{{ route('roles') }}" class="nav-link">
+                                  <p>Roles</p>
+                                </a>
+                              </li>
+                              {{-- <li class="nav-item">
+                                <a href="{{ route('permissions') }}" class="nav-link">
+                                  <p>Permissions</p>
+                                </a>
+                              </li> --}}
+                            </ul>
+                          </li>
+
+
+                        {{-- <li class="nav-item">
                             <a href="{{ route('users') }}"
                             class="nav-link {{ Route::current()->getName() == 'users' ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-th"></i>
@@ -126,7 +155,7 @@
                                         Roles & Permissions
                                     </p>
                                 </a>
-                            </li>
+                            </li> --}}
                         @endrole
 
                         @role('sales|administrator')
