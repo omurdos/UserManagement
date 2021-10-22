@@ -3,6 +3,7 @@
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeesController;
+use App\Http\Controllers\LogsController;
 use App\Http\Controllers\OfficesController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\PaymentsController;
@@ -71,7 +72,7 @@ Route::group(['prefix' => 'users', 'middleware' => ['auth', 'role:administrator'
     Route::get('/create', [UsersController::class, 'create'])->name('create-user');
     Route::get('/{id}/edit', [UsersController::class, 'edit'])->name('edit-user');
     Route::post('/{id}/update', [UsersController::class, 'update'])->name('update-user');
-    Route::post('/store', [UsersController::class, 'store'])->name('create-user');
+    Route::post('/', [UsersController::class, 'store'])->name('create-user');
 });
 
 
@@ -80,8 +81,14 @@ Route::group(['prefix' => 'roles', 'middleware' => ['auth', 'role:administrator'
     Route::get('/create', [RolesController::class, 'create'])->name('create-role');
     Route::get('/{id}/edit', [RolesController::class, 'edit'])->name('edit-role');
     Route::post('/{id}/update', [RolesController::class, 'update'])->name('update-role');
-    Route::post('/store', [RolesController::class, 'store'])->name('store-role');
+    Route::post('/', [RolesController::class, 'store'])->name('store-role');
 });
+
+
+Route::group(['prefix' => 'logs', 'middleware' => ['auth', 'role:superadministrator|administrator']], function () {
+    Route::get('/', [LogsController::class, 'index'])->name('logs');
+});
+
 
 // Route::group(['prefix' => 'permissions', 'middleware' => ['auth', 'role:administrator']], function () {
 //     Route::get('/', [RolesController::class, 'index'])->name('roles');

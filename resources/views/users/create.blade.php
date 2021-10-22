@@ -13,7 +13,7 @@
             </ul>
         </div>
     @endif
-    <form action="/users/store" method="POST">
+    <form action="/users" method="POST">
         @csrf
         <div class="card">
             <div class="card-body">

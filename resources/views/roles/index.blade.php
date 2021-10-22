@@ -9,7 +9,7 @@
 @if(session()->has('message'))
 <div class="alert alert-success alert-dismissible fade show" role="alert">
    @if ( session()->get('message'))
-       <strong>Congrats!</strong> user has been updated successfully
+       <strong>Congrats!</strong> changes saved successfully
    @endif
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>

@@ -121,12 +121,12 @@
                             </a>
                             <ul class="nav nav-treeview">
                               <li class="nav-item">
-                                <a href="{{ route('users') }}" class="nav-link  {{ Route::current()->getName() == 'users' ? 'active' : '' }}">
+                                <a href="{{ route('users') }}" class="nav-link  {{ Request::is('users') || Request::is('users/*') ? 'active' : '' }}">
                                   <p>Users</p>
                                 </a>
                               </li>
                               <li class="nav-item">
-                                <a href="{{ route('roles') }}" class="nav-link">
+                                <a href="{{ route('roles') }}" class="nav-link  {{ Request::is('roles') || Request::is('roles/*') ? 'active' : '' }}">
                                   <p>Roles</p>
                                 </a>
                               </li>
@@ -251,7 +251,18 @@
                             </li>
 
                         @endrole
+                        @role('administrator')
+                        <li class="nav-item">
+                            <a href="{{ route('logs') }} "
+                                class="nav-link {{ Route::current()->getName() == 'logs' ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Logs
+                                </p>
+                            </a>
+                        </li>
 
+                    @endrole
 
 
                     </ul>

@@ -6,6 +6,8 @@ use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Log;
+use Illuminate\Support\Facades\Auth;
 
 use function PHPUnit\Framework\isNull;
 
@@ -23,6 +25,11 @@ class UsersController extends Controller
     {
         $roles = Role::all();
         $permissions = Permission::all();
+        Log::create(
+            [
+                'message' => "User " . Auth::user()->name . " viewed users list"
+            ]
+        );
         return view('users.create', [
             "roles" => $roles,
             "permissions" => $permissions
@@ -33,7 +40,7 @@ class UsersController extends Controller
     public function store(Request $request)
     {
 
-        $validated = $request->validate([
+        $request->validate([
             'name' => ['required', 'unique:users'],
             "email" => ['required', 'unique:users', 'email'],
             "password" => ['required', 'same:confirm-password'],
@@ -48,8 +55,17 @@ class UsersController extends Controller
         $result = $user->save();
 
         if ($result) {
-            $user->syncRoles($request->roles);
-            $user->syncPermissions($request->permissions);
+            if (isset($request->roles)) {
+                $user->syncRoles($request->roles);
+            }
+            if (isset($request->permissions)) {
+                $user->syncPermissions();
+            }
+            Log::create(
+                [
+                    'message' => "User " . Auth::user()->name . " created a new user ( " . $user->name . " )"
+                ]
+            );
             return redirect('users');
         } else {
         }
@@ -71,8 +87,8 @@ class UsersController extends Controller
     public function update(Request $request, $id)
     {
 
-       $request->validate([
-            'name' => ['required', ],
+        $request->validate([
+            'name' => ['required',],
             "email" => ['required', 'email'],
         ]);
 
@@ -105,9 +121,14 @@ class UsersController extends Controller
                 $user->syncPermissions($request->permissions);
             }
 
-
+            Log::create(
+                [
+                    'message' => "User " . Auth::user()->name . " updated  user ( " . $user->name . " )"
+                ]
+            );
             return redirect('users')->with('message', $result);
         } else {
+            return back();
         }
     }
 }
