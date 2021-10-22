@@ -54,7 +54,7 @@ Route::group(['prefix' => 'orders', 'middleware' => ['auth', 'role:sales|adminis
 });
 
 
-Route::group(['prefix' => 'payments', 'middleware' => ['auth', 'role:administrator']], function () {
+Route::group(['prefix' => 'payments', 'middleware' => ['auth', 'role:administrator|sales']], function () {
     Route::get('/', [PaymentsController::class, 'index'])->name('payments');
 });
 
